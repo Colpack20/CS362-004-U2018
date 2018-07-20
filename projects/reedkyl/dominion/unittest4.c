@@ -14,12 +14,8 @@
 #include <assert.h>
 #include "rngs.h"
 
-// set NOISY_TEST to 0 to remove printfs from output
-#define NOISY_TEST 1
-
 int main() {
     int i;
-	//int a = 3;
     int seed = 1000;
     int numPlayer = 2;
     int maxBonus = 10;
@@ -44,21 +40,12 @@ int main() {
     printf ("TESTING supplyCount():\n");
 
 				numPlayer = 2;
-				//handCount = 5;
-#if (NOISY_TEST == 1)
-                //printf("Test player %d with %d treasure card(s).\n", p, handCount);
-#endif*/
+
 	printf("test 1 on number of provinces after initialize game is run\n");
                 memset(&G, 23, sizeof(struct gameState));   // clear the game state
                 r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
-                //G.handCount = handCount;                 // set the number of cards on hand
-				//G.supplyCount[province] = 1;
-				//printf("supply count is %d \n", G.supplyCount[duchy]);
-                //memcpy(G.hand[p], coppers, sizeof(int) * handCount); // set all the cards to copper
-                //int a = isGameOver(&G);
-				
-				//printf("a is %d\n", isGameOver(&G));
-				//printf("count is %d\n", fullDeckCount(0, copper, &G));
+															// set the number of cards on hand
+
 				printf("province count %d\n", supplyCount(province, &G));
 				int ptotal = supplyCount(province, &G);
 				if(ptotal == 8)
