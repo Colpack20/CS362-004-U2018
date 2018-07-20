@@ -14,12 +14,8 @@
 #include <assert.h>
 #include "rngs.h"
 
-// set NOISY_TEST to 0 to remove printfs from output
-#define NOISY_TEST 1
-
 int main() {
     int i;
-	//int a = 3;
     int seed = 1000;
     int numPlayer = 2;
     int maxBonus = 10;
@@ -44,29 +40,14 @@ int main() {
     printf ("TESTING fullDeckCount():\n");
 
 				numPlayer = 2;
-				//handCount = 5;
-
-                //printf("Test player %d with %d treasure card(s).\n", p, handCount);
 
 	printf("test 1 on player 1 for number of duchy cards after initialize game is run\n");
                 memset(&G, 23, sizeof(struct gameState));   // clear the game state
                 r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
-                //G.handCount = handCount;                 // set the number of cards on hand
-				//G.supplyCount[province] = 1;
-				//printf("supply count is %d \n", G.supplyCount[duchy]);
-                //memcpy(G.hand[p], coppers, sizeof(int) * handCount); // set all the cards to copper
-                //int a = isGameOver(&G);
-				
-				//printf("a is %d\n", isGameOver(&G));
-				//printf("count is %d\n", fullDeckCount(0, copper, &G));
+															// set the number of cards on hand
+
 				int h, total;
-				//total = 0;
-				//for (h = 0; h < 27; h++){
-					//printf("card %d is %d\n", h, fullDeckCount(0, h, &G));
-					total = fullDeckCount(0, 2, &G);
-				//}
-				//printf("total is %d\n", total);
-				//printf("deck count is %d\n", G.deckCount[0]);
+				total = fullDeckCount(0, 2, &G);
 				
 				printf("hand count is %d\n", G.handCount[0]);
 				int a;
@@ -81,16 +62,12 @@ int main() {
 					printf("passed, player 1 has no duchy cards\n");
 				else
 					printf("failed, player 1 has duchy cards\n");
-				//int h, total;
+
 	printf("test 2 on player 2 for deck count and full deck count totals after initialize game is run, which should be the same\n");
 				total = 0;
 				for (h = 0; h < 27; h++)
-				{
-					//printf("card %d is %d\n", h, fullDeckCount(1, h, &G));
-					total += fullDeckCount(1, h, &G);//this is statement is just checking the total number of cards, not any specific ones
-				}
-				//printf("total is %d\n", total);
-				//printf("deck count is %d\n", G.deckCount[1]);
+					total += fullDeckCount(1, h, &G);//this is statement is checking the total number of cards for player 2
+
 				printf("hand count is %d\n", G.handCount[1]);
 				for(a = 0; a< G.handCount[1]; a++)
 					printf("hand card number %d is %d\n", a, G.hand[1][a]);
@@ -116,7 +93,7 @@ int main() {
 					printf("passed, there are 3 estates total\n");
 				else
 					printf("failed, there aren't 3 estates total\n");			
-	printf("test 5 on player 1 for total number of smithys with smithys added to the discard pile\n");
+	printf("test 5 for full deck total with cards added to the discard pile\n");
 				
 				G.hand[0][0] = smithy;
 				printf("hand count is %d\n", G.handCount[0]);
@@ -129,8 +106,7 @@ int main() {
 				printf("deck count is %d\n", G.deckCount[0]);
 				G.deck[0][1] = smithy;
 				for(j=0; j<G.deckCount[0]; j++)
-					printf("deck card number %d is %d\n", j, G.deck[0][j]);
-				
+					printf("deck card number %d is %d\n", j, G.deck[0][j]);			
 				
 				G.discard[0][0] = smithy;
 				G.discardCount[0]++;

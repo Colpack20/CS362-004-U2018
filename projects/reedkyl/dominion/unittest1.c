@@ -14,9 +14,6 @@
 #include <assert.h>
 #include "rngs.h"
 
-// set NOISY_TEST to 0 to remove printfs from output
-#define NOISY_TEST 1
-
 int main() {
     int i;
     int seed = 1000;
@@ -41,18 +38,15 @@ int main() {
 
     printf ("TESTING getCost():\n");
 	char bec[5] = "sell";
-	//char grif = "happy";
-	//memset(&G, 23, sizeof(struct gameState));   // clear the game state
-    //r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
-    //G.handCount[p] = handCount;                 // set the number of cards on hand
-    //memcpy(G.hand[p], smithy, sizeof(int) * handCount); // set all the cards to copper
+	
     int x = getCost(smithy);
 	int y = getCost(smithy + 1);
 	int z = getCost(200);
 	int xx = getCost(27);
 	int yy = getCost("Hi");
 	int zz = getCost(bec);
-	//int aa = getCost(grif);
+	
+	//Testing all of the possible cases for getCost
 	int bb = getCost(curse);//0
 	int cc = getCost(estate);//2
 	int dd = getCost(duchy);//5
@@ -78,11 +72,7 @@ int main() {
 	int ww = getCost(salvager);//4
 	int a = getCost(sea_hag);//4
 	int b = getCost(treasure_map);//4
-	//gold, adventurer, 
-	//hh c
-	//int zzz = getCost(1, 2);
-	//int z = smithy;
-	//printf("z is %d\n", z);
+
 	if (x == 4)
 		printf("Test 1 passed, testing smithy returned 4\n");
 	else
@@ -112,11 +102,7 @@ int main() {
 		printf("Test 6 passed, testing unusual input (char array) returns -1\n");
 	else
 		printf("Test 6 failed, testing unusual input (char array) doesn't return -1\n");
-	
-	/*if(aa == -1)
-		printf("Test 7 passed, testing unusual input (char variable) returns -1\n");
-	else
-		printf("Test 7 failed, testing unusual input (char variable) doesn't return -1\n");*/
+
 	if(bb == 0 && ff == 0)
 		printf("Test 7 passed, testing curse and copper returned 0\n");
 	else
