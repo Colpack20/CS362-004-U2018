@@ -642,7 +642,82 @@ int getCost(int cardNumber)
 	
   return -1;
 }
-
+int smithyFunction(int currentPlayer, struct gameState *state, int handPos)
+{
+int i;
+for (i = 0; i < 5; i++)
+	{
+	  drawCard(currentPlayer, state);
+	}
+			
+	  //discard card from hand
+	  discardCard(handPos, currentPlayer, state, 0);
+	  discardCard(handPos, currentPlayer, state, 0);
+	  discardCard(handPos, currentPlayer, state, 0);
+	  return 0;
+}
+int adventurerFunction(int currentPlayer, struct gameState *state, int z, int *temphand, int drawntreasure, int cardDrawn)
+{
+	while(drawntreasure<1){
+		if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
+		  shuffle(currentPlayer, state);
+		}
+		drawCard(currentPlayer, state);
+		cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
+		if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
+		  drawntreasure++;
+		else{
+		  temphand[z]=cardDrawn;
+		  state->handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
+		  z++;
+		}
+		  }
+		  while(z-1>=0){
+		state->discard[currentPlayer][state->discardCount[currentPlayer]++]=temphand[z-1]; // discard all cards in play that have been drawn
+		z=z-1;
+		  }
+		  return 0;
+}
+int cRoomfunction(int currentPlayer, struct gameState *state, int handPos)
+{
+//+4 Cards
+	int i;
+	  for (i = 0; i < 4; i++)
+	{
+	  drawCard(currentPlayer, state);
+	}
+			
+	  //+1 Buy
+	  state->numBuys+=3;
+			
+	  //Each other player draws a card
+	  for (i = 0; i < state->numPlayers; i++)
+	{
+	  if ( i != currentPlayer )
+		{
+		  drawCard(i, state);
+		}
+	}				
+	  //put played card in played card pile
+	  discardCard(handPos, currentPlayer, state, 0);				
+	  return 0;
+}
+int villageFunction(int currentPlayer, struct gameState *state, int handPos)
+{
+//+1 Card
+	  drawCard(currentPlayer, state);
+	  drawCard(currentPlayer, state);	
+	  //+2 Actions
+	  state->numActions = state->numActions + 2;
+			
+	  //discard played card from hand
+	  discardCard(handPos, currentPlayer, state, 0);
+	  return 0;
+}
+int gardensFunction()
+{
+	return -1;
+}
 int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus)
 {
   int i;
@@ -661,56 +736,24 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
   if (nextPlayer > (state->numPlayers - 1)){
     nextPlayer = 0;
   }
-  
-	
+	//case smithy
+	if(card == smithy)
+		return smithyFunction(currentPlayer, state, handPos);			
+	//case adventurer:
+    if(card == adventurer)
+		return adventurerFunction(currentPlayer, state, z, temphand, drawntreasure, cardDrawn);
+	//case council_room:
+	if(card == council_room)
+		return cRoomfunction(currentPlayer, state, handPos);	
+	//case gardens:
+	if(card == gardens)
+      return gardensFunction();
+	//case village:
+	if(card == village)
+      return villageFunction(currentPlayer, state, handPos);
   //uses switch to select card and perform actions
   switch( card ) 
     {
-    case adventurer:
-      while(drawntreasure<2){
-	if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
-	  shuffle(currentPlayer, state);
-	}
-	drawCard(currentPlayer, state);
-	cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
-	if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
-	  drawntreasure++;
-	else{
-	  temphand[z]=cardDrawn;
-	  state->handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
-	  z++;
-	}
-      }
-      while(z-1>=0){
-	state->discard[currentPlayer][state->discardCount[currentPlayer]++]=temphand[z-1]; // discard all cards in play that have been drawn
-	z=z-1;
-      }
-      return 0;
-			
-    case council_room:
-      //+4 Cards
-      for (i = 0; i < 4; i++)
-	{
-	  drawCard(currentPlayer, state);
-	}
-			
-      //+1 Buy
-      state->numBuys++;
-			
-      //Each other player draws a card
-      for (i = 0; i < state->numPlayers; i++)
-	{
-	  if ( i != currentPlayer )
-	    {
-	      drawCard(i, state);
-	    }
-	}
-			
-      //put played card in played card pile
-      discardCard(handPos, currentPlayer, state, 0);
-			
-      return 0;
-			
     case feast:
       //gain card with cost up to 5
       //Backup hand
@@ -763,9 +806,6 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       //Reset Hand
       			
       return 0;
-			
-    case gardens:
-      return -1;
 			
     case mine:
       j = state->hand[currentPlayer][choice1];  //store card we will trash
@@ -827,29 +867,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 
 
       return 0;
-		
-    case smithy:
-      //+3 Cards
-      for (i = 0; i < 3; i++)
-	{
-	  drawCard(currentPlayer, state);
-	}
-			
-      //discard card from hand
-      discardCard(handPos, currentPlayer, state, 0);
-      return 0;
-		
-    case village:
-      //+1 Card
-      drawCard(currentPlayer, state);
-			
-      //+2 Actions
-      state->numActions = state->numActions + 2;
-			
-      //discard played card from hand
-      discardCard(handPos, currentPlayer, state, 0);
-      return 0;
-		
+	  
     case baron:
       state->numBuys++;//Increase buys by 1!
       if (choice1 > 0){//Boolean true or going to discard an estate
@@ -1330,4 +1348,3 @@ int updateCoins(int player, struct gameState *state, int bonus)
 
 
 //end of dominion.c
-
