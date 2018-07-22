@@ -49,15 +49,15 @@ int main() {
 				int h, total;
 				total = fullDeckCount(0, 2, &G);
 				
-				printf("hand count is %d\n", G.handCount[0]);
+				//printf("hand count is %d\n", G.handCount[0]);
 				int a;
-				for(a = 0; a< G.handCount[0]; a++)
-					printf("hand card number %d is %d\n", a, G.hand[0][a]);
+				//for(a = 0; a< G.handCount[0]; a++)
+					//printf("hand card number %d is %d\n", a, G.hand[0][a]);
 				
-				printf("deck count is %d\n", G.deckCount[0]);
-				for(a=0; a<G.deckCount[0]; a++)
-					printf("deck card number %d is %d\n", a, G.deck[0][a]);
-				printf("discard count is %d\n", G.discardCount[0]);
+				//printf("deck count is %d\n", G.deckCount[0]);
+				//for(a=0; a<G.deckCount[0]; a++)
+					//printf("deck card number %d is %d\n", a, G.deck[0][a]);
+				//printf("discard count is %d\n", G.discardCount[0]);
 				if(total == 0)
 					printf("passed, player 1 has no duchy cards\n");
 				else
@@ -68,14 +68,14 @@ int main() {
 				for (h = 0; h < 27; h++)
 					total += fullDeckCount(1, h, &G);//this is statement is checking the total number of cards for player 2
 
-				printf("hand count is %d\n", G.handCount[1]);
-				for(a = 0; a< G.handCount[1]; a++)
-					printf("hand card number %d is %d\n", a, G.hand[1][a]);
+				//printf("hand count is %d\n", G.handCount[1]);
+				//for(a = 0; a< G.handCount[1]; a++)
+					//printf("hand card number %d is %d\n", a, G.hand[1][a]);
 				
-				printf("deck count is %d\n", G.deckCount[1]);
-				for(a=0; a<G.deckCount[1]; a++)
-					printf("deck card number %d is %d\n", a, G.deck[1][a]);
-				printf("discard count is %d\n", G.discardCount[1]);
+				//printf("deck count is %d\n", G.deckCount[1]);
+				//for(a=0; a<G.deckCount[1]; a++)
+					//printf("deck card number %d is %d\n", a, G.deck[1][a]);
+				//printf("discard count is %d\n", G.discardCount[1]);
 				if(total == (G.deckCount[1]+G.discardCount[1] + G.handCount[1]) && total == 10)
 					printf("passed, player 2 hasn't drawn any cards into their hand or discarded any cards, so the full deck count is the same as the deckcount attribute of player 2\n");
 				else
@@ -96,17 +96,17 @@ int main() {
 	printf("test 5 for full deck total with cards added to the discard pile\n");
 				
 				G.hand[0][0] = smithy;
-				printf("hand count is %d\n", G.handCount[0]);
-				printf("player 1's hand is\n");
+				//printf("hand count is %d\n", G.handCount[0]);
+				//printf("player 1's hand is\n");
 				int j;
-				for(j = 0; j< G.handCount[0]; j++)
-					printf("hand card number %d is %d\n", j, G.hand[0][j]);
+				/*for(j = 0; j< G.handCount[0]; j++)
+					printf("hand card number %d is %d\n", j, G.hand[0][j]);*/
 				
-				printf("player 1's deck is\n");
-				printf("deck count is %d\n", G.deckCount[0]);
+				//printf("player 1's deck is\n");
+				//printf("deck count is %d\n", G.deckCount[0]);
 				G.deck[0][1] = smithy;
-				for(j=0; j<G.deckCount[0]; j++)
-					printf("deck card number %d is %d\n", j, G.deck[0][j]);			
+				/*for(j=0; j<G.deckCount[0]; j++)
+					printf("deck card number %d is %d\n", j, G.deck[0][j]);*/			
 				
 				G.discard[0][0] = smithy;
 				G.discardCount[0]++;
@@ -114,11 +114,11 @@ int main() {
 				G.discardCount[0]++;
 				G.discard[0][2] = smithy;
 				G.discardCount[0]++;
-				printf("discard count is %d\n", G.discardCount[0]);
-				for(j=0; j<G.discardCount[0]; j++)
-					printf("discard card number %d is %d\n", j, G.discard[0][j]);
+				//printf("discard count is %d\n", G.discardCount[0]);
+				//for(j=0; j<G.discardCount[0]; j++)
+					//printf("discard card number %d is %d\n", j, G.discard[0][j]);
 				int smithyTotal = fullDeckCount(0, smithy, &G);
-				printf("smithytotal is %d \n", smithyTotal);
+				//printf("smithytotal is %d \n", smithyTotal);
 				if(smithyTotal == 4)
 					printf("passed, there are 4 smithys total\n");
 				else

@@ -36,7 +36,7 @@ int main() {
         silvers[i] = silver;
         golds[i] = gold;
     }
-
+ 
     printf ("TESTING supplyCount():\n");
 
 				numPlayer = 2;

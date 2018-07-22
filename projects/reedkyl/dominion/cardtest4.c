@@ -63,25 +63,30 @@ int main() {
 				int newtotal = 0;
 				for (h = 0; h < 27; h++)
 					newtotal += fullDeckCount(1, h, &G);
-
+				printf("test 1A: are there two buys after the council room card is played?\n");
 				if(G.numBuys == 2)
 					printf("test passed, there are 2 buys for player 2\n");
 				else
-					printf("test failed, there aren't 2 buys for player 2\n");
+					printf("test failed, there aren't 2 buys for player 2, there are %d buys\n", G.numBuys);
+				printf("test 1B: are there 4 cards in Player 2's hand after council room is played?\n");
 				if(G.handCount[1] == 4)
 					printf("test passed, there are 4 cards in Player 2's hand\n");
 				else
 					printf("test failed, there aren't 4 cards in Player 2's hand\n");
+				printf("test 1C: were there any cards trashed unnecessarily from player 2's hand?\n");
 				if(total == newtotal)
 					printf("test passed, no cards were trashed unnecessarily from Player 2's hand\n");
+				else if(total < newtotal)
+					printf("test failed, %d card(s) was/were added unnecessarily to Player 2's hand\n", newtotal - total);
 				else
-					printf("test failed, cards were trashed unnecessarily from Player 2's hand\n");
-				if(G.deckCount[1] == firstDeckcount - 4)
+					printf("test failed, %d card(s) was/were trashed unnecessarily from Player 2's hand\n", total - newtotal);
+				printf("test 1D: were four cards successfully drawn from the deck?\n");
+				if(G.deckCount[1] == (firstDeckcount - 4))
 					printf("test passed, four cards were drawn from the deck \n");
 				else
 					printf("test failed, four cards weren't drawn from the deck \n");
 				
-	printf("test 2 add council_room to index 0 (hand position 1) and use card effect of council_room on player 1\n");
+	printf("\ntest 2 add council_room to index 0 (hand position 1) and use card effect of council_room on player 1\n");
                 memset(&G, 23, sizeof(struct gameState));   // clear the game state
                 r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
 															// set the number of cards on hand
@@ -102,20 +107,25 @@ int main() {
 				newtotal = 0;
 				for (h = 0; h < 27; h++)
 					newtotal += fullDeckCount(0, h, &G);
-
+				printf("test 2A: are there two buys after the council room card is played?\n");
 				if(G.numBuys == 2)
 					printf("test passed, there are 2 buys for player 1\n");
 				else
-					printf("test failed, there aren't 2 buys for player 1\n");
+					printf("test failed, there aren't 2 buys for player 1, there are %d buys\n", G.numBuys);
+				printf("test 2B: are there 9 cards in Player 1's hand after council room is played?\n");
 				if(G.handCount[0] == 9)
 					printf("test passed, there are 9 cards in Player 1's hand\n");
 				else
 					printf("test failed, there aren't 9 cards in Player 1's hand\n");
+				printf("test 2C: were there any cards trashed unnecessarily from player 1's hand?\n");
 				if(total == newtotal)
 					printf("test passed, no cards were trashed unnecessarily from Player 1's hand\n");
+				else if(total < newtotal)
+					printf("test failed, %d card(s) was/were added unnecessarily to Player 1's hand\n", newtotal - total);
 				else
-					printf("test failed, cards were trashed unnecessarily from Player 1's hand\n");
-				if(G.deckCount[0] == firstDeckcount - 4)
+					printf("test failed, %d card(s) was/were trashed unnecessarily from Player 1's hand\n", total - newtotal);
+				printf("test 2D: were four cards successfully drawn from the deck?\n");
+				if(G.deckCount[0] == (firstDeckcount - 4))
 					printf("test passed, four cards were drawn from the deck \n");
 				else
 					printf("test failed, four cards weren't drawn from the deck \n");

@@ -48,41 +48,41 @@ int main() {
 				G.supplyCount[province] = 1;
 
 				if (!isGameOver(&G))
-					printf("test 1 passed, the game is not over\n");
+					printf("test passed, the game is not over\n");
 				else
-					printf("test 1 failed, the game is over\n");
+					printf("test failed, the game is over\n");
 	printf("test 2 with 0 provinces left\n");			
 				G.supplyCount[province] = 0;
 				if (isGameOver(&G))
-					printf("test 2 passed, the game is over\n");
+					printf("test passed, the game is over\n");
 				else
-					printf("test 2 failed, the game is not over\n");
+					printf("test failed, the game is not over\n");
 	printf("test 3 with 0 duchy and 0 copper\n");
 				G.supplyCount[province] = 1;
 				G.supplyCount[duchy] = 0;
 				G.supplyCount[copper] = 0;
 				if (!isGameOver(&G))
-					printf("test 3 passed, the game is not over\n");
+					printf("test passed, the game is not over\n");
 				else
-					printf("test 3 failed, the game is over\n");
+					printf("test failed, the game is over\n");
 	printf("test 4 with 0 duchy, 0 copper, and 0 estate\n");
 				G.supplyCount[province] = 1;
 				G.supplyCount[duchy] = 0;
 				G.supplyCount[copper] = 0;
 				G.supplyCount[estate] = 0;
 				if (isGameOver(&G))
-					printf("test 4 passed, the game is over\n");
+					printf("test passed, the game is over\n");
 				else
-					printf("test 4 failed, the game is not over\n");
+					printf("test failed, the game is not over\n");
 	printf("test 5 with 0 smithy\n");
 				G.supplyCount[duchy] = 1;
 				G.supplyCount[copper] = 1;
 				G.supplyCount[estate] = 1;
 				G.supplyCount[smithy] = 0;
 				if (!isGameOver(&G))
-					printf("test 5 passed, the game is not over\n");
+					printf("test passed, the game is not over\n");
 				else
-					printf("test 5 failed, the game is over\n");	
+					printf("test failed, the game is over\n");	
 
     printf("All tests taken!\n");
 

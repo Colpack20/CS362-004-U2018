@@ -66,36 +66,42 @@ unittestresults.out: unittest1.c unittest2.c unittest3.c unittest4.c cardtest1.c
 	echo "getCost" >> unittestresults.out
 	gcov -fb dominion.c | sed -n '/getCost/{n;p; n;p; n;p; n;p}' >> unittestresults.out
 		
+	echo >> unittestresults.out
 	echo "unittest2.c:" >> unittestresults.out
 	gcc -o unittest2 unittest2.c dominion.o rngs.o $(CFLAGS)
 	unittest2 >> unittestresults.out
 	echo "isGameOver" >> unittestresults.out
 	gcov -fb dominion.c | sed -n '/isGameOver/{n;p; n;p; n;p; n;p}' >> unittestresults.out
 	
+	echo >> unittestresults.out
 	echo "unittest3.c:" >> unittestresults.out
 	gcc -o unittest3 unittest3.c dominion.o rngs.o $(CFLAGS)
 	unittest3 >> unittestresults.out
 	echo "fullDeckCount" >> unittestresults.out
 	gcov -fb dominion.c | sed -n '/fullDeckCount/{n;p; n;p; n;p; n;p}' >> unittestresults.out
 	
+	echo >> unittestresults.out
 	echo "unittest4.c:" >> unittestresults.out
 	gcc -o unittest4 unittest4.c dominion.o rngs.o $(CFLAGS)
 	unittest4 >> unittestresults.out
 	echo "supplyCount" >> unittestresults.out
 	gcov -fb dominion.c | sed -n '/supplyCount/{n;p; n;p; n;p; n;p}' >> unittestresults.out
 	
+	echo >> unittestresults.out
 	echo "cardtest1.c:" >> unittestresults.out
 	gcc -o cardtest1 cardtest1.c dominion.o rngs.o $(CFLAGS)
 	cardtest1 >> unittestresults.out
 	echo "smithy" >> unittestresults.out
 	gcov -fb dominion.c | sed -n '/smithyFunction/{n;p; n;p; n;p; n;p}' >> unittestresults.out
 	
+	echo >> unittestresults.out
 	echo "cardtest2.c:" >> unittestresults.out
 	gcc -o cardtest2 cardtest2.c dominion.o rngs.o $(CFLAGS)
 	cardtest2 >> unittestresults.out
 	echo "adventurer" >> unittestresults.out
 	gcov -fb dominion.c | sed -n '/adventurerFunction/{n;p; n;p; n;p; n;p}' >> unittestresults.out
 	
+	echo >> unittestresults.out 
 	echo "cardtest3.c:" >> unittestresults.out
 	gcc -o cardtest3 cardtest3.c dominion.o rngs.o $(CFLAGS)
 	cardtest3 >> unittestresults.out
