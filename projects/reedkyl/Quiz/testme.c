@@ -8,7 +8,7 @@ char inputChar()
     // TODO: rewrite this function
 
 	int num = rand() % 9 + 1;
-
+	//printf("num is %d ", num);
 	if (num == 1)
 		return '[';
     if (num == 2)
