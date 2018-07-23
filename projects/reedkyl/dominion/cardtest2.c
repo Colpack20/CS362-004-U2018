@@ -162,30 +162,30 @@ printf("\ntest 2, when deck count is 0, and the discard pile has 5 coppers and t
 				//int u;
 				//for(u = 0; u < G.handCount[1]; u++)
 					//printf("card %d is %d\n", u, G.hand[1][u]);
-				printf("test 3A: are there two cards in Player 2's hand?\n");
+				printf("test 2A: are there two cards in Player 2's hand?\n");
 				if(G.handCount[1] == 2)
 					printf("test passed, there are two cards in Player 2's hand\n");
 				else
 					printf("test failed, there aren't two cards in Player 2's hand\n");
-				printf("test 3B: was adventurer discarded from player 2's hand?\n");
+				printf("test 2B: was adventurer discarded from player 2's hand?\n");
 				if(G.hand[1][0] == 7)
 					printf("test failed, adventurer was not discarded from the hand\n");
 				else
 					printf("test passed, adventurer was discarded from the hand\n");
-				printf("test 3C: were any cards trashed or added unnecessarily to Player 2's full deck?\n");
+				printf("test 2C: were any cards trashed or added unnecessarily to Player 2's full deck?\n");
 				if(total == newtotal)
 					printf("test passed, no cards were trashed or added unnecessarily to Player 2's full deck\n");
 				else if(total > newtotal)
 					printf("test failed, %d card(s) was/were trashed unnecessarily from Player 2's full deck\n", total-newtotal);
 				else
 					printf("test failed, some cards were added unnecessarily\n");
-				printf("test 3D: were 2 treasures added to Player 2's hand?\n");
-				if(G.hand[1][1] == 6)
-					if(G.hand[1][0] == 6)
+				printf("test 2D: were 2 treasures added to Player 2's hand?\n");
+				if(G.hand[1][1] == 5)
+					if(G.hand[1][0] == 5)
 						printf("test passed, both cards in Player 2's hand are treasures (copper)\n");
 					else
 						printf("test failed, only 1 card in Player 2's hand is a treasure (copper)\n");
-				else if(G.hand[1][0] == 6)
+				else if(G.hand[1][0] == 5)
 					printf("test failed, only 1 card in Player 2's hand is a treasure (copper)\n");
 				else
 					printf("test failed, both cards in Player 2's hand aren't treasures (copper)\n");
@@ -200,9 +200,9 @@ printf("\ntest 3: drawing multiple cards to find a treasure \n");
 				int n;
 				G.deck[1][0] = smithy;
 				G.deck[1][1] = gold;
+				G.deck[1][2] = gold;
+				G.deck[1][3] = smithy;
 				G.discardCount[1] = 0;
-				for(n = 2; n < 4; n++)
-					G.deck[1][n] = smithy; 
 				
 				G.whoseTurn = 1;
 				total = 0;
@@ -217,7 +217,7 @@ printf("\ntest 3: drawing multiple cards to find a treasure \n");
 				//printf("deckcount is %d \n", G.deckCount[1]);
 				for (h = 0; h < 27; h++)
 					newtotal += fullDeckCount(1, h, &G);
-				printf("test 4A: are there two cards in Player 2's hand?\n");
+				printf("test 3A: are there two cards in Player 2's hand?\n");
 				if(G.handCount[1] == 2)
 					printf("Test passed! there are 2 cards in player 2's hand\n");
 				else
@@ -225,26 +225,26 @@ printf("\ntest 3: drawing multiple cards to find a treasure \n");
 				/*for (h = 0; h < 2; h++){
 					printf("player 1's hand: the card %d is %d\n",h,G.hand[1][h]); 
 				}*/
-				printf("test 4B: were 2 treasures added to Player 2's hand?\n");
-				if(G.hand[1][1] == 4)
-					if(G.hand[1][0] == 4)
+				printf("test 3B: were 2 treasures added to Player 2's hand?\n");
+				if(G.hand[1][1] == 6)
+					if(G.hand[1][0] == 6)
 						printf("test passed, both cards in Player 2's hand are treasures (copper)\n");
 					else
 						printf("test failed, only 1 card in Player 2's hand is a treasure (copper)\n");
-				else if(G.hand[1][0] == 4)
+				else if(G.hand[1][0] == 6)
 					printf("test failed, only 1 card in Player 2's hand is a treasure (copper)\n");
 				else
 					printf("test failed, both cards in Player 2's hand aren't treasures (copper)\n");
-				printf("test 4C: were two cards added to the discard pile of player 2?\n");
+				printf("test 3C: were two cards added to the discard pile of player 2?\n");
 				if(G.discardCount[1] == 2)
 					printf("Test passed, two cards were correctly added to the discard pile of player 2\n");
 				else
 					printf("Test failed, %d card(s) was/were added to the discard pile of player 2\n", G.discardCount[1]);
-				printf("test 4D: are both cards in the discard pile the smithy cards that were in Player 2's hand?\n");
+				printf("test 3D: are both cards in the discard pile the smithy cards that were in Player 2's hand?\n");
 				if(G.discard[1][0] == smithy && G.discard[1][1] == smithy)
 					printf("Test passed! both discarded cards in player 2's discard pile are smithy\n");
 				else
-					printf("Test failed! the first card is %d and the second card is %d \n", G.discard[1][0], G.discard[1][1]);
+					printf("Test failed! the first card is %d and there is no second card in the discard pile\n", G.discard[1][0]);
 				
 printf("\nTest 4: does playing the adventurer card cause player 1 to draw a gold and a silver into their hand? (When the top deck card is a gold and then a silver)\n");
 				memset(&G, 23, sizeof(struct gameState));   // clear the game state
