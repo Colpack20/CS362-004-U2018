@@ -1,2 +1,1 @@
-Compile with make testme  
-run with ./testme
+Compile and run with make testme  
