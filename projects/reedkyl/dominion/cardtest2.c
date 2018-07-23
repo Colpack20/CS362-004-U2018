@@ -15,15 +15,20 @@
 #include "rngs.h"
 
 int main() {
-    int i;
+    int i, addedCards;
     int seed = 1000;
+	int addedCoins;
+	int shuffledCards = 0;
     int numPlayer = 2;
     int maxBonus = 10;
+	int discardedCards = 1;
+	int currentPlayer = 0;
     int p, r, handCount;
-    int bonus;
+    int bonus = 0;
+	int handpos = 0, choice1 = 0, choice2 = 0, choice3 = 0;
     int k[10] = {adventurer, council_room, feast, gardens, mine
                , remodel, smithy, village, baron, great_hall};
-    struct gameState G;
+    struct gameState G, testcaseG;
 	
     int maxHandCount = 5;
     // arrays of all coppers, silvers, and golds
@@ -41,106 +46,92 @@ int main() {
 
 				numPlayer = 2;
 
-	printf("test 1 add adventurer to index 0 (hand position 1) and use card effect of adventurer for player 2\n");
+	printf("test 1 add adventurer to index 0 (hand position 1) and use card effect of adventurer for player 1\n");
                 memset(&G, 23, sizeof(struct gameState));   // clear the game state
                 r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
 															// set the number of cards on hand
+				memcpy(&testcaseG, &G, sizeof(struct gameState));
+				testcaseG.hand[0][0] = adventurer;
+				//G.handCount[1]++;
 
-				G.hand[1][0] = adventurer;
-				G.handCount[1]++;
-
-				G.whoseTurn = 1;
+				//G.whoseTurn = 1;
 				int total = 0;
 				int h;
 				
-				int firstDeckcount = G.deckCount[1];
-				for (h = 0; h < 27; h++)
-					total += fullDeckCount(1, h, &G);
-				
-				int y = cardEffect(adventurer, -1, -1, -1, &G, 0, bonus);//play smithy from index 0 of hand
-			
-				int newtotal = 0;
-				for (h = 0; h < 27; h++)
-					newtotal += fullDeckCount(1, h, &G);
-				printf("test 1A: are there two cards in Player 2's hand?\n");
-				if(G.handCount[1] == 2)
-					printf("test passed, there are two cards in Player 2's hand\n");
-				else
-					printf("test failed, there aren't two cards in Player 2's hand\n");
-				printf("test 1B: was adventurer discarded from Player 2's hand?\n");
-				if(G.hand[1][0] == 7)
-					printf("test failed, adventurer was not discarded from the hand\n");
-				else
-					printf("test passed, adventurer was discarded from the hand\n");
-				printf("test 1C: were any cards trashed or added unnecessarily to Player 2's full deck?\n");
-				if(total == newtotal)
-					printf("test passed, no cards were trashed or added unnecessarily to Player 2's full deck\n");
-				else if(total > newtotal)
-					printf("test failed, %d card(s) was/were trashed unnecessarily from Player 2's full deck\n", total-newtotal);
-				else
-					printf("test failed, some cards were added unnecessarily\n");
-				printf("test 1D: were 2 treasures added to Player 2's hand?\n");
-				if(G.hand[1][1] == 4)
-					if(G.hand[1][0] == 4)
-						printf("test passed, 2 treasures(copper) were added to Player 2's hand\n");
-					else
-						printf("test failed, only 1 treasure(copper) was added to Player 2's hand\n");
-				else if(G.hand[1][0] == 4)
-					printf("test failed, only 1 treasure(copper) was added to Player 2's hand\n");
-				else
-					printf("test failed, 1 treasure(copper) was added to Player 2's hand\n");
-				
-				
-printf("\ntest 2 add adventurer to index 0 and use card effect of adventurer for player 1\n");
-                memset(&G, 23, sizeof(struct gameState));   // clear the game state
-                r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
-															// set the number of cards on hand
-
-				G.hand[0][0] = adventurer;
-				G.handCount[0] = 1;
-
-				G.whoseTurn = 0;
-				total = 0;
-				printf("the deckcount before the card effect is %d \n", G.deckCount[0]);
-				firstDeckcount = G.deckCount[0];
-				for (h = 0; h < 27; h++)
+				int firstDeckcount = G.deckCount[0];
+				for (h = 0; h < 27; h++)	
 					total += fullDeckCount(0, h, &G);
-				
-				int z = cardEffect(adventurer, -1, -1, -1, &G, 0, bonus);//play smithy from index 0 of hand
-				printf("the deckcount after the card effect is %d \n", G.deckCount[0]);
-				newtotal = 0;
-				for (h = 0; h < 27; h++)
-					newtotal += fullDeckCount(0, h, &G);
+				//for(h =0; h < testcaseG.handCount[0]; h++)
+					//printf("hand card %d is %d\n", h, testcaseG.hand[0][h]);
+				//for(h =0; h < testcaseG.handCount[0]; h++)
+					//printf("deck card %d is %d\n", h, testcaseG.deck[0][h]);
+				cardEffect(adventurer, choice1, choice2, choice3, &testcaseG, handpos, bonus);//play adventurer from index 0 of hand
 			
-				//printf("handcount is %d\n", G.handCount[0]);
-				printf("test 2A: are there two cards in Player 1's hand?\n");
-				if(G.handCount[0] == 2)
-					printf("test passed, there are two cards in Player 1's hand\n");
+				firstDeckcount = testcaseG.deckCount[0];
+				int newtotal = 0;
+				for (h = 0; h < 27; h++)	
+					newtotal += fullDeckCount(0, h, &testcaseG);
+				addedCards = 2;
+				addedCoins = 0;
+				if(testcaseG.coins == G.coins)
+					printf("Passed: the expected coin total is %d, and the current coin total is %d\n", G.coins, testcaseG.coins);
 				else
-					printf("test failed, there are %d card(s) in Player 1's hand\n", G.handCount[0]);
-				printf("test 2B: was adventurer discarded from Player 1's hand?\n");
-				if(G.hand[0][0] == 7)
-					printf("test failed, adventurer was not discarded from the hand\n");
+					printf("Failed: the expected coin total is %d, and the current coin total is %d\n", G.coins, testcaseG.coins);
+				//else(testcaseG.discardCount[currentPlayer] != G.discardCount[currentPlayer] + 1)
+				if(testcaseG.discardCount[currentPlayer] == G.discardCount[currentPlayer] + discardedCards)
+					printf("Passed: %d card(s) correctly added to the discard pile\n", discardedCards);
 				else
-					printf("test passed, adventurer was discarded from the hand\n");
-				printf("test 2C: were any cards trashed or added unnecessarily to Player 1's full deck?\n");
-				if(total == newtotal)
-					printf("test passed, no cards were trashed or added unnecessarily to Player 1's full deck\n");
-				else if(total > newtotal)
-					printf("test failed, %d card(s) was/were trashed unnecessarily from Player 1's full deck\n", total-newtotal);
+					printf("Failed: %d card(s) added to the discard pile, %d cards expected to be added to the discard pile\n", testcaseG.discardCount[currentPlayer] - G.discardCount[currentPlayer], discardedCards);
+				if (testcaseG.handCount[currentPlayer] == G.handCount[currentPlayer] + addedCards - discardedCards)
+					printf("Passed: The hand count for the current Player is %d and the expected hand count is %d \n", testcaseG.handCount[currentPlayer], G.handCount[currentPlayer] + addedCards - discardedCards);
 				else
-					printf("test failed, some cards were added unnecessarily\n");
-				printf("test 1D: were 2 treasures added to Player 1's hand?\n");
-				if(G.hand[0][1] == 4)
-					if(G.hand[0][0] == 4)
+					printf("Failed: The hand count for the current Player is %d and the expected hand count is %d \n", testcaseG.handCount[currentPlayer], G.handCount[currentPlayer] + addedCards - discardedCards);
+				if(G.hand[0][5] == 4)
+					if(G.hand[0][4] == 4)
 						printf("test passed, both new cards in Player 1's hand are treasures (copper)\n");
 					else
 						printf("test failed, only 1 new card in Player 1's hand is a treasure (copper)\n");
-				else if(G.hand[0][0] == 4)
+				else if(G.hand[0][4] == 4)
 					printf("test failed, only 1 new card in Player 1's hand is a treasure (copper)\n");
 				else
 					printf("test failed, both new cards in Player 1's hand aren't treasures (copper)\n");
-		printf("\ntest 3, when deck count is 0, and the discard pile has 5 coppers and there is 1 adventurer card in player 2's hand\n");		
+				if(testcaseG.deckCount[currentPlayer] == G.deckCount[currentPlayer] - addedCards + shuffledCards)
+					printf("Passed: the deck count is %d and the expected deck count is %d\n", testcaseG.deckCount[currentPlayer], G.deckCount[currentPlayer] - addedCards + shuffledCards);
+				else
+					printf("Failed: the deck count is %d and the expected deck count is %d\n", testcaseG.deckCount[currentPlayer], G.deckCount[currentPlayer] - addedCards + shuffledCards);
+				if(testcaseG.handCount[1] == G.handCount[1])
+					printf("Passed: Player 2's hand count didn't change\n");
+				else
+					printf("Failed: Player 2's hand count changed\n");
+				if(testcaseG.deckCount[1] == G.deckCount[1])
+					printf("Passed: Player 2's deck count didn't change\n");
+				else
+					printf("Failed: Player 2's deck count changed\n");
+				if(testcaseG.discardCount[1] == G.discardCount[1])
+					printf("Passed: Player 2's discard count didn't change\n");
+				else
+					printf("Failed: Player 2's discard count changed\n");
+				if(testcaseG.supplyCount[estate] == G.supplyCount[estate] && testcaseG.supplyCount[duchy] == G.supplyCount[duchy] && testcaseG.supplyCount[province] == G.supplyCount[province])
+					printf("Passed: the victory card counts are unchanged\n");
+				else
+					printf("Failed: the victory card counts have changed\n");
+				int m;
+				for(m = 7; m < 17; m++)
+					if(testcaseG.supplyCount[m] == G.supplyCount[m])
+						printf("Passed: The supply count of kingdom card %d has stayed the same\n", m);
+					else
+						printf("Failed: The supply count of kingdom card %d has changed\n", m);
+				
+				
+				//printf("test 1B: were any cards trashed or added unnecessarily to Player 1's full deck?\n");
+				if(total == newtotal)
+					printf("Test passed, no cards were trashed unnecessarily from Player 1's full deck\n");
+				else if(total > newtotal)
+					printf("Test failed, %d card(s) was/were trashed unnecessarily from Player 1's full deck\n", total-newtotal);
+				else
+					printf("Test failed, some cards were added unnecessarily to Player 1's full deck\n");
+				
+printf("\ntest 2, when deck count is 0, and the discard pile has 5 coppers and there is 1 adventurer card in player 2's hand\n");		
 				
 				memset(&G, 23, sizeof(struct gameState));   // clear the game state
                 r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
@@ -153,7 +144,7 @@ printf("\ntest 2 add adventurer to index 0 and use card effect of adventurer for
 				G.discardCount[1] = 5;
 				int j;
 				for(j = 0; j<5; j++)
-					G.discard[1][j] = copper;
+					G.discard[1][j] = silver;
 
 				G.whoseTurn = 1;
 				total = 0;
@@ -189,16 +180,16 @@ printf("\ntest 2 add adventurer to index 0 and use card effect of adventurer for
 				else
 					printf("test failed, some cards were added unnecessarily\n");
 				printf("test 3D: were 2 treasures added to Player 2's hand?\n");
-				if(G.hand[1][1] == 4)
-					if(G.hand[1][0] == 4)
+				if(G.hand[1][1] == 6)
+					if(G.hand[1][0] == 6)
 						printf("test passed, both cards in Player 2's hand are treasures (copper)\n");
 					else
 						printf("test failed, only 1 card in Player 2's hand is a treasure (copper)\n");
-				else if(G.hand[1][0] == 4)
+				else if(G.hand[1][0] == 6)
 					printf("test failed, only 1 card in Player 2's hand is a treasure (copper)\n");
 				else
 					printf("test failed, both cards in Player 2's hand aren't treasures (copper)\n");
-		printf("\ntest 4: drawing multiple cards to find a treasure \n");
+printf("\ntest 3: drawing multiple cards to find a treasure \n");
 				memset(&G, 23, sizeof(struct gameState));   // clear the game state
                 r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
 															// set the number of cards on hand
@@ -208,7 +199,7 @@ printf("\ntest 2 add adventurer to index 0 and use card effect of adventurer for
 				G.deckCount[1] = 4;
 				int n;
 				G.deck[1][0] = smithy;
-				G.deck[1][1] = copper;
+				G.deck[1][1] = gold;
 				G.discardCount[1] = 0;
 				for(n = 2; n < 4; n++)
 					G.deck[1][n] = smithy; 
@@ -255,7 +246,7 @@ printf("\ntest 2 add adventurer to index 0 and use card effect of adventurer for
 				else
 					printf("Test failed! the first card is %d and the second card is %d \n", G.discard[1][0], G.discard[1][1]);
 				
-				printf("\nTest 5: does playing the adventurer card cause player 1 to draw a gold and a silver into their hand? (When the top deck card is a gold and then a silver)\n");
+printf("\nTest 4: does playing the adventurer card cause player 1 to draw a gold and a silver into their hand? (When the top deck card is a gold and then a silver)\n");
 				memset(&G, 23, sizeof(struct gameState));   // clear the game state
                 r = initializeGame(numPlayer, k, seed, &G);
 				G.hand[0][0] = adventurer;
@@ -284,7 +275,7 @@ printf("\ntest 2 add adventurer to index 0 and use card effect of adventurer for
 				else
 					printf("Test failed, neither a gold nor a silver was not drawn into player 1's hand\n");
 				
-				printf("\nTest 6: does playing the adventurer card cause player 1 to draw a silver and a copper into their hand? (When the top deck card is a silver and then a copper)\n");
+printf("\nTest 5: does playing the adventurer card cause player 1 to draw a silver and a copper into their hand? (When the top deck card is a silver and then a copper)\n");
 				memset(&G, 23, sizeof(struct gameState));   // clear the game state
                 r = initializeGame(numPlayer, k, seed, &G);
 				G.hand[0][0] = adventurer;
