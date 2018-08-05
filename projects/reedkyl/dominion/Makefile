@@ -40,19 +40,19 @@ randomtestcard1.out: randomtestcard1.c dominion.o rngs.o
 	randomtestcard1 >> randomtestcard1.out
 	gcov -fb dominion.c | sed -n '/smithyFunction/{n;p; n;p; n;p; n;p}' >> randomtestcard1.out
 
+randomtestadventurer.out: randomtestadventurer.c dominion.o rngs.o
+	echo "Results for running random card tests:" >> randomtestadventurer.out
+	echo "randomtestadventurer.c:" >> randomtestadventurer.out
+	gcc -o randomtestadventurer -g randomtestadventurer.c dominion.o rngs.o $(CFLAGS)
+	randomtestadventurer >> randomtestadventurer.out
+	gcov -fb dominion.c | sed -n '/adventurerFunction/{n;p; n;p; n;p; n;p}' >> randomtestadventurer.out
+
 randomtestcard2.out: randomtestcard2.c dominion.o rngs.o
 	echo "Results for running random card tests:" >> randomtestcard2.out
 	echo "randomtestcard2.c:" >> randomtestcard2.out
 	gcc -o randomtestcard2 -g randomtestcard2.c dominion.o rngs.o $(CFLAGS)
 	randomtestcard2 >> randomtestcard2.out
-	gcov -fb dominion.c | sed -n '/adventurerFunction/{n;p; n;p; n;p; n;p}' >> randomtestcard2.out
-
-randomtestcard3.out: randomtestcard3.c dominion.o rngs.o
-	echo "Results for running random card tests:" >> randomtestcard3.out
-	echo "randomtestcard3.c:" >> randomtestcard3.out
-	gcc -o randomtestcard3 -g randomtestcard3.c dominion.o rngs.o $(CFLAGS)
-	randomtestcard3 >> randomtestcard3.out
-	gcov -fb dominion.c | sed -n '/villageFunction/{n;p; n;p; n;p; n;p}' >> randomtestcard3.out
+	gcov -fb dominion.c | sed -n '/villageFunction/{n;p; n;p; n;p; n;p}' >> randomtestcard2.out
 
 all: playdom player testDrawCard testBuyCard badTestDrawCard
 
