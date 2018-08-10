@@ -728,6 +728,7 @@ void smithyFunction(int currentPlayer, int handPos,struct gameState *state){
 
    // for loop enforced in function
 
+	
     // bug detected
 		int i;
   for (i = 0; i<3;i++)
