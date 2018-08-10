@@ -730,7 +730,7 @@ void smithyFunction(int currentPlayer, int handPos,struct gameState *state){
 
 	
     // bug detected
-		int i;
+	int i;
   for (i = 0; i<3;i++)
   {
 
